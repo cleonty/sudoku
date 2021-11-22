@@ -1,5 +1,5 @@
-<div class="row" *ngFor="let row of board.board">
-  <div class ="square" *ngFor="let val of row">
+<div class="row" *ngFor="let row of board.board; index as rowIndex">
+  <div class ="square" *ngFor="let val of row; index as colIndex" [ngClass]="getSquareClass(rowIndex, colIndex)">
     <ng-container *ngIf="val == 0">
       &nbsp;
     </ng-container>
@@ -10,3 +10,4 @@
 </div>
 
 <button type="button" (click)="solve()">Solve</button>
+<button type="button" (click)="step()">Step</button>

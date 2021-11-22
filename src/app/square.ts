@@ -69,4 +69,15 @@ export class Square {
     }
     return success;
   }
+  
+  tryFirstMissing(): boolean {
+    let success = false;
+    for (let val of this.missing) {
+      if (this.tryMissing(val)) {
+        this.missing.delete(val);
+        return true;
+      }
+    }
+    return false;
+  }
 }

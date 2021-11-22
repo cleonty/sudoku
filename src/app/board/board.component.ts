@@ -21,4 +21,17 @@ export class BoardComponent implements OnInit {
     this.board.solve();
   }
   
+  step(): void {
+    this.board.step();
+  }
+  
+  getSquareClass(row: number, col: number): string {
+    row = Math.floor(row / 3);
+    col = Math.floor(col / 3);
+    if ((row != 1 && col != 1) || (row == 1 && col == 1)) {
+      return 'high';
+    }
+    return 'low';
+  }
+  
 }

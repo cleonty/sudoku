@@ -88,5 +88,13 @@ export class Board {
       }
     }
   }
+  
+  step() {
+    for (let square of this.squares) {
+      if (square.tryFirstMissing()) {
+        return;
+      };
+    }
+  }
 
 }
