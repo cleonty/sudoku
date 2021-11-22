@@ -1,0 +1,12 @@
+<div class="row" *ngFor="let row of board.board">
+  <div class ="square" *ngFor="let val of row">
+    <ng-container *ngIf="val == 0">
+      &nbsp;
+    </ng-container>
+    <ng-container *ngIf="val != 0">
+      {{ val }}
+    </ng-container>
+  </div>
+</div>
+
+<button type="button" (click)="solve()">Solve</button>
