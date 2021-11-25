@@ -4,25 +4,58 @@ const size = 9;
 
 export class Board {
 
-  readonly board = [
-    [0, 6, 7, 0, 0, 0, 3, 1, 2],
-    [1, 0, 4, 7, 6, 0, 8, 5, 0],
-    [0, 0, 0, 0, 2, 0, 0, 7, 6],
-    [7, 9, 2, 0, 8, 5, 0, 0, 1],
-    [6, 0, 0, 0, 7, 0, 5, 0, 3],
-    [3, 0, 5, 6, 0, 0, 0, 0, 0],
-    [2, 8, 0, 0, 3, 7, 9, 0, 0],
-    [4, 7, 6, 0, 0, 9, 1, 3, 0],
-    [0, 0, 3, 0, 1, 0, 0, 2, 0],
+  readonly sampleBoard = [
+    [0, 4, 2, 0, 0, 5, 0, 6, 7],
+    [1, 0, 0, 8, 4, 0, 0, 0, 0],
+    [0, 0, 3, 0, 0, 2, 0, 4, 0],
+    [7, 0, 0, 5, 0, 3, 0, 9, 0],
+    [0, 0, 0, 0, 0, 0, 0, 7, 0],
+    [0, 6, 8, 0, 7, 4, 0, 0, 0],
+    [0, 0, 0, 4, 3, 8, 0, 0, 6],
+    [2, 3, 0, 0, 5, 0, 0, 0, 1],
+    [0, 7, 6, 1, 0, 0, 4, 0, 3],
   ]
+
+  readonly emptyBoard = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ]
+
+  board: number[][] = this.emptyBoard;
   private rows: Set<number>[] = [];
   private cols: Set<number>[] = [];
   squares: Square[] = [];
 
-
   constructor() {
+    this.initWithEmptyBoard();
+  }
+
+  init() {
     this.makeRowsAndCols();
     this.makeSquares();
+  }
+
+  public initWithBoard(board: number[][]) {
+    this.board = [];
+    for (const row of board) {
+      this.board.push([...row]);
+    }
+    this.init();
+  }
+
+  public initWithSampleBoard() {
+    this.initWithBoard(this.sampleBoard);
+  }
+
+  public initWithEmptyBoard() {
+    this.initWithBoard(this.emptyBoard);
   }
 
   private makeRowsAndCols() {
@@ -69,6 +102,18 @@ export class Board {
     this.board[row][col] = val;
   }
 
+  setIfPossible(row: number, col: number, val: number): boolean {
+    const square = this.getSquare(row, col);
+    if (!this.rows[row].has(val) && !this.cols[col].has(val) && !square.has(val)) {
+      this.rows[row].add(val);
+      this.cols[col].add(val);
+      square.add(val);
+      this.board[row][col] = val;
+      return true;
+    }
+    return false;
+  }
+
   isComplete(): boolean {
     return this.squares.every(s => s.getMissingCount() === 0);
   }
@@ -88,13 +133,22 @@ export class Board {
       }
     }
   }
-  
+
   step() {
     for (let square of this.squares) {
       if (square.tryFirstMissing()) {
         return;
       };
     }
+  }
+
+  getSquareIndex(row: number, col: number): number {
+    return Math.ceil(row / 3) + Math.ceil(col / 3);
+  }
+
+  private getSquare(row: number, col: number): Square {
+    const squareIndex = this.getSquareIndex(row, col);
+    return this.squares[squareIndex];
   }
 
 }

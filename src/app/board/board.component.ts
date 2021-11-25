@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Board } from '../board';
 
 const size = 9;
@@ -10,6 +10,9 @@ const size = 9;
 })
 export class BoardComponent implements OnInit {
   readonly board = new Board();
+  
+  @ViewChildren('square')
+  squareElements!: QueryList<ElementRef>;
 
   constructor() { }
 
@@ -32,6 +35,29 @@ export class BoardComponent implements OnInit {
       return 'high';
     }
     return 'low';
+  }
+  
+  onKeydown(row: number, col: number, event: KeyboardEvent): void {
+    if (event.key.match(/\d/)) {
+      const val = +event.key;
+      this.board.setIfPossible(row, col, val);
+    }
+  }
+  
+  focus(row: number, col: number): void {
+    const index = row * size + col;
+    const element = this.squareElements.get(index);
+    if (element) {
+      element.nativeElement.focus();
+    }
+  }
+  
+  empty(): void {
+    this.board.initWithEmptyBoard();
+  }
+  
+  sample(): void {
+    this.board.initWithSampleBoard();
   }
   
 }

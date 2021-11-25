@@ -2,8 +2,6 @@ import { Board } from './board';
 
 const size = 3;
 export class Square {
-
-  private vals = new Set<number>();
   private missing = new Set<number>();
 
   constructor(
@@ -22,7 +20,6 @@ export class Square {
       for (let col = 0; col < size; col++) {
         const val = this.board.get(this.row + row, this.col + col);
         if (val !== 0) {
-          this.vals.add(val);
           this.missing.delete(val);
         }
       }
@@ -71,7 +68,6 @@ export class Square {
   }
   
   tryFirstMissing(): boolean {
-    let success = false;
     for (let val of this.missing) {
       if (this.tryMissing(val)) {
         this.missing.delete(val);
@@ -79,5 +75,13 @@ export class Square {
       }
     }
     return false;
+  }
+  
+  has(val: number): boolean {
+    return !this.missing.has(val);
+  }
+  
+  add(val: number) {
+    this.missing.delete(val);
   }
 }

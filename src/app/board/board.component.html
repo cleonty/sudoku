@@ -1,5 +1,10 @@
 <div class="row" *ngFor="let row of board.board; index as rowIndex">
-  <div class ="square" *ngFor="let val of row; index as colIndex" [ngClass]="getSquareClass(rowIndex, colIndex)">
+  <div #square class="square" *ngFor="let val of row; index as colIndex"
+    [ngClass]="getSquareClass(rowIndex, colIndex)"
+    tabindex="0"
+    (keydown)="onKeydown(rowIndex, colIndex, $event)"
+    (click)="focus(rowIndex, colIndex)"
+  >
     <ng-container *ngIf="val == 0">
       &nbsp;
     </ng-container>
@@ -9,5 +14,9 @@
   </div>
 </div>
 
-<button type="button" (click)="solve()">Solve</button>
-<button type="button" (click)="step()">Step</button>
+<div class="controls">
+  <button type="button" (click)="solve()">Solve</button>
+  <button type="button" (click)="step()">Step</button>
+  <button type="button" (click)="sample()">Sample Board</button>
+  <button type="button" (click)="empty()">Empty Board</button>
+</div>
