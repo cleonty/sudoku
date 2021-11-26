@@ -27,6 +27,18 @@ export class Board {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]
+  
+  readonly sampleBoard24 = [
+    [0, 0, 0, 3, 0, 6, 0, 0, 2],
+    [9, 0, 3, 7, 0, 0, 5, 0, 1],
+    [5, 0, 0, 9, 0, 0, 0, 6, 0],
+    [0, 0, 0, 0, 7, 0, 0, 0, 0],
+    [0, 0, 4, 1, 0, 9, 2, 0, 0],
+    [8, 0, 5, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 9, 1, 6, 0, 5],
+    [4, 0, 0, 0, 3, 2, 7, 1, 0],
+    [0, 0, 1, 0, 0, 7, 0, 4, 9],
+  ]
 
   board: number[][] = this.emptyBoard;
   private rows: Set<number>[] = [];
@@ -52,6 +64,9 @@ export class Board {
 
   public initWithSampleBoard() {
     this.initWithBoard(this.sampleBoard);
+  }
+  public initWithSampleBoard24() {
+    this.initWithBoard(this.sampleBoard24);
   }
 
   public initWithEmptyBoard() {

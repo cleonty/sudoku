@@ -60,4 +60,8 @@ export class BoardComponent implements OnInit {
     this.board.initWithSampleBoard();
   }
   
+  sample24(): void {
+    this.board.initWithSampleBoard24();
+  }
+  
 }
